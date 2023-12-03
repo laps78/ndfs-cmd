@@ -1,21 +1,25 @@
 export class DateApp {
-  constructor(args) {
-    this.date = new Date();
-    this.args = args;
+  constructor(date) {
+    this.date = date;
   }
 
-  ptintHours(date) {
+  printDay(date) {
     const res = date.getHours();
-    console.log(res);
+    console.log('Дата в календарном месяце: ', res);
+  }
+
+  printMonth(date) {
+    const res = date.getMonth();
+    console.log('Месяц: ', res);
   }
 
   printYear(date) {
     const res = date.getFullYear();
-    console.log(res);
+    console.log('Год: ', res);
   }
 
-  printDateAsIs(date) {
-    console.log("Текущая дата и время в формате ISO:\n", date);
+  printDateISO(date) {
+    console.log("Дата и время в формате ISO: ", date);
   }
 }
 
