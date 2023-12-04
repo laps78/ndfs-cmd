@@ -33,7 +33,7 @@ const argv = yargs(hideBin(process.argv))
       console.log(argv)
       if (argv.y) {
         const now = new Date();
-        const targetDate = now.setFullYear(now.getFullYear() + argv.y);
+        const targetDate = new Date(now.setFullYear(now.getFullYear() + argv.y));
         console.log(typeof targetDate)
         const app = new DateApp(targetDate);
         app.printDateISO(targetDate);
