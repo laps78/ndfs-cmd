@@ -12,6 +12,9 @@ const argv = yargs(hideBin(process.argv))
     handler: (argv) => {
       const date = new Date();
       const app = new DateApp(date);
+      console.log("current сработал")
+      console.log(argv, "doing jobs...")
+      app.printDateISO(date);
       // parse options
       if (argv.m || argv.month) {
         app.printMonth(app.date);
@@ -19,7 +22,7 @@ const argv = yargs(hideBin(process.argv))
       }
       if (argv.d || argv.date) {
         app.printDay(app.date);
-      }
+      } 
       if (argv.y || argv.year) {
         app.printYear(app.date)
       }
@@ -31,12 +34,23 @@ const argv = yargs(hideBin(process.argv))
     builder: () => { },
     handler: (argv) => {
       console.log(argv)
+      const now = new Date();
       if (argv.y) {
-        const now = new Date();
         const targetDate = new Date(now.setFullYear(now.getFullYear() + argv.y));
-        console.log(typeof targetDate)
         const app = new DateApp(targetDate);
-        app.printDateISO(targetDate);
+        app.printDateISO(app.date);
+      };
+      if (argv.m) {
+        const targetDate = new Date(now.setMonth(now.getMonth() + argv.m));
+        const app = new DateApp(targetDate);
+        app.printDateISO(app.date);
+      }
+      if (argv.d) {
+        const nowTimeStamp = new Date().valueOf()
+        const day24h_MS = 24 * 60 * 60 * 1000;
+        const targetDate = new Date(nowTimeStamp + (day24h_MS * argv.d));
+        const app = new DateApp(targetDate);
+        app.printDateISO(app.date);
       }
     }
   })

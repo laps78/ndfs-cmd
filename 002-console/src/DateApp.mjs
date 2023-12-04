@@ -1,5 +1,5 @@
 export class DateApp {
-  constructor(date) {
+  constructor(date = new Date()) {
     this.date = date;
   }
 
