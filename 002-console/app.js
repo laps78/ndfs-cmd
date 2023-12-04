@@ -3,6 +3,10 @@ import DateApp from "./src/DateApp.mjs"
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+// service values
+const  day24h_MS = 24 * 60 * 60 * 1000;
+
+// define commands
 const argv = yargs(hideBin(process.argv))
   .usage('Usage: cmd <command> [option]')
   .command({
@@ -12,10 +16,16 @@ const argv = yargs(hideBin(process.argv))
     handler: (argv) => {
       const date = new Date();
       const app = new DateApp(date);
-      console.log("current сработал")
-      console.log(argv, "doing jobs...")
-      app.printDateISO(date);
-      // parse options
+      if (argv._[0] === 'current' 
+        && !argv.d 
+        && !argv.date 
+        && !argv.y 
+        && !argv.year
+        && !argv.m
+        && !argv.month) {
+        app.printDateISO(date);
+      }
+      // parse opts
       if (argv.m || argv.month) {
         app.printMonth(app.date);
         return 1;
@@ -33,8 +43,8 @@ const argv = yargs(hideBin(process.argv))
     desc: 'Дата в будущем',
     builder: () => { },
     handler: (argv) => {
-      console.log(argv)
       const now = new Date();
+      // parse opts
       if (argv.y) {
         const targetDate = new Date(now.setFullYear(now.getFullYear() + argv.y));
         const app = new DateApp(targetDate);
@@ -47,14 +57,37 @@ const argv = yargs(hideBin(process.argv))
       }
       if (argv.d) {
         const nowTimeStamp = new Date().valueOf()
-        const day24h_MS = 24 * 60 * 60 * 1000;
         const targetDate = new Date(nowTimeStamp + (day24h_MS * argv.d));
         const app = new DateApp(targetDate);
         app.printDateISO(app.date);
       }
     }
   })
-  .command('sub', 'Дата в прошлом')
+  .command({
+    command: 'sub', 
+    desc: 'Дата в прошлом',
+    builder: () => {},
+    handler: (argv) => {
+      const now = new Date();
+      // parse opts
+      if (argv.y) {
+        const targetDate = new Date(now.setYear(now.getFullYear() - argv.y));
+        const app = new DateApp(targetDate);
+        app.printDateISO(app.date);
+      }
+      if (argv.m) {
+        const targetDate = new Date(now.setMonth(now.getMonth() - argv.m));
+        const app = new DateApp(targetDate);
+        app.printDateISO(app.date);
+      }
+      if (argv.d) {
+        const nowTimeStamp = new Date().valueOf();
+        const targetDate = new Date(nowTimeStamp - (day24h_MS * argv.d));
+        const app = new DateApp(targetDate);
+        app.printDateISO(app.date);
+      }
+    }
+  })
   .option('date', {
     alias: 'd',
     description: 'Дата в календарном месяце'

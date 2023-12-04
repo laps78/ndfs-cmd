@@ -4,12 +4,12 @@ export class DateApp {
   }
 
   printDay(date) {
-    const res = date.getHours();
+    const res = date.getDate();
     console.log('Дата в календарном месяце: ', res);
   }
 
   printMonth(date) {
-    const res = date.getMonth();
+    const res = date.getMonth() + 1;
     console.log('Месяц: ', res);
   }
 
